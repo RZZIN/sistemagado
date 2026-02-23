@@ -8,18 +8,12 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-// SERVIR FRONTEND (pasta public)
+// SERVIR FRONTEND
 app.use(express.static(path.join(__dirname, "public")));
 
-// conexão Railway com SSL obrigatório
-const connection = mysql.createConnection({
-  uri: process.env.DATABASE_URL,
-  ssl: {
-    rejectUnauthorized: false
-  }
-});
+// conexão Railway
+const connection = mysql.createConnection(process.env.DATABASE_URL);
 
-// conectar
 connection.connect((err) => {
   if (err) {
     console.error("Erro ao conectar:", err);
@@ -28,7 +22,7 @@ connection.connect((err) => {
   }
 });
 
-// criar tabela automaticamente
+// criar tabela
 connection.query(
 CREATE TABLE IF NOT EXISTS animais (
   id INT AUTO_INCREMENT PRIMARY KEY,
@@ -60,7 +54,6 @@ app.post("/animais", (req, res) => {
   );
 });
 
-// porta Railway
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {

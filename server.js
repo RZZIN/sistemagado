@@ -1,11 +1,15 @@
 const express = require("express");
 const mysql = require("mysql2");
 const cors = require("cors");
+const path = require("path");
 
 const app = express();
 
 app.use(cors());
 app.use(express.json());
+
+// SERVIR FRONTEND (pasta public)
+app.use(express.static(path.join(__dirname, "public")));
 
 // conexão Railway com SSL obrigatório
 const connection = mysql.createConnection({
@@ -25,19 +29,14 @@ connection.connect((err) => {
 });
 
 // criar tabela automaticamente
-connection.query(`
+connection.query(
 CREATE TABLE IF NOT EXISTS animais (
   id INT AUTO_INCREMENT PRIMARY KEY,
   nome VARCHAR(255),
   tipo VARCHAR(255),
   created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 )
-`);
-
-// rota teste
-app.get("/", (req, res) => {
-  res.send("API funcionando 🚀");
-});
+);
 
 // listar animais
 app.get("/animais", (req, res) => {

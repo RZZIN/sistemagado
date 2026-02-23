@@ -1,30 +1,203 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Sistema de Gado 🐂</title>
+
+<style>
+
+body{
+font-family: Arial;
+background:#f4f6f8;
+padding:20px;
+}
+
+.container{
+background:white;
+padding:20px;
+border-radius:10px;
+max-width:700px;
+margin:auto;
+box-shadow:0 0 10px rgba(0,0,0,0.1);
+}
+
+h1{
+text-align:center;
+}
+
+input{
+padding:10px;
+margin:5px;
+width:45%;
+}
+
+button{
+padding:10px;
+border:none;
+background:#28a745;
+color:white;
+cursor:pointer;
+border-radius:5px;
+}
+
+button:hover{
+background:#218838;
+}
+
+.lista{
+margin-top:20px;
+}
+
+.item{
+background:#eee;
+padding:10px;
+margin-top:5px;
+border-radius:5px;
+display:flex;
+justify-content:space-between;
+}
+
+.excluir{
+background:red;
+}
+
+</style>
+
+</head>
+<body>
+
+<div class="container">
+
+<h1>Sistema de Gado 🐂</h1>
+
+<h3>Cadastrar Animal</h3>
+
+<input id="nome" placeholder="Nome">
+
+<input id="tipo" placeholder="Tipo">
+
+<br><br>
+
+<button onclick="cadastrar()">Cadastrar</button>
+
+<button onclick="carregar()">Atualizar Lista</button>
+
+<div class="lista" id="lista"></div>
+
+</div>
+
+
 <script>
 
+const API = "https://adaptable-rebirth-production.up.railway.app";
+
+
+// LISTAR
 function carregar(){
 
-fetch("https://adaptable-rebirth-production.up.railway.app/animais")
+fetch(API + "/animais")
 
-.then(res => res.json())
+.then(res=>res.json())
 
-.then(animais => {
+.then(animais=>{
 
-let html = "";
+let html="";
 
-animais.forEach(animal => {
+animais.forEach(a=>{
 
-html += `<li>
+html+=`
 
-Nome: ${animal.nome} |
-Tipo: ${animal.tipo}
+<div class="item">
 
-</li>`;
+<div>
+
+<b>${a.nome}</b> - ${a.tipo}
+
+</div>
+
+<div>
+
+<button class="excluir"
+onclick="excluir(${a.id})">
+
+Excluir
+
+</button>
+
+</div>
+
+</div>
+
+`;
 
 });
 
-document.getElementById("lista").innerHTML = html;
+document.getElementById("lista").innerHTML=html;
 
 });
 
 }
 
+
+
+// CADASTRAR
+function cadastrar(){
+
+let nome = document.getElementById("nome").value;
+
+let tipo = document.getElementById("tipo").value;
+
+fetch(API + "/animais",{
+
+method:"POST",
+
+headers:{
+"Content-Type":"application/json"
+},
+
+body:JSON.stringify({
+
+nome,
+tipo
+
+})
+
+})
+
+.then(()=>{
+
+alert("Cadastrado com sucesso");
+
+carregar();
+
+});
+
+}
+
+
+
+// EXCLUIR
+function excluir(id){
+
+fetch(API + "/animais/"+id,{
+
+method:"DELETE"
+
+})
+
+.then(()=>{
+
+carregar();
+
+});
+
+}
+
+
+// carregar automático
+carregar();
+
 </script>
+
+</body>
+</html>

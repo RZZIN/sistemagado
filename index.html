@@ -2,25 +2,54 @@
 <html lang="pt-br">
 <head>
 <meta charset="UTF-8">
-<title>🐂 Sistema de Gado</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AgroMarket Pro</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 
 <style>
 
+:root{
+--verde:#2e7d32;
+--verde2:#1b5e20;
+--cinza:#f4f6f8;
+}
+
+*{
+box-sizing:border-box;
+font-family:Poppins;
+}
+
 body{
-font-family:Arial;
 margin:0;
-background:#f4f6f8;
+background:var(--cinza);
 }
 
 header{
-background:#2e7d32;
+background:linear-gradient(90deg,var(--verde),var(--verde2));
 color:white;
 padding:20px;
-text-align:center;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header h1{
+margin:0;
+}
+
+header button{
+background:white;
+color:var(--verde);
+border:none;
+padding:10px;
+border-radius:8px;
+cursor:pointer;
+font-weight:600;
 }
 
 .container{
-max-width:1000px;
+max-width:1200px;
 margin:auto;
 padding:20px;
 }
@@ -28,26 +57,31 @@ padding:20px;
 .card{
 background:white;
 padding:20px;
+border-radius:12px;
+box-shadow:0 5px 15px rgba(0,0,0,0.1);
 margin-bottom:20px;
-border-radius:10px;
-box-shadow:0 3px 10px rgba(0,0,0,0.1);
 }
 
-input, button{
+input,select{
 width:100%;
 padding:10px;
-margin-top:10px;
+margin:5px 0;
+border-radius:8px;
+border:1px solid #ccc;
 }
 
 button{
-background:#2e7d32;
+background:var(--verde);
 color:white;
 border:none;
+padding:12px;
+border-radius:8px;
 cursor:pointer;
+margin-top:5px;
 }
 
 button:hover{
-background:#145a1a;
+background:var(--verde2);
 }
 
 .grid{
@@ -56,119 +90,4 @@ grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:15px;
 }
 
-.animal{
-background:white;
-padding:15px;
-border-left:5px solid green;
-border-radius:10px;
-}
-
-</style>
-
-</head>
-<body>
-
-<header>
-
-<h1>🐂 Sistema de Gado</h1>
-
-</header>
-
-<div class="container">
-
-
-<div class="card">
-
-<h2>Cadastrar Animal</h2>
-
-<input id="nome" placeholder="Nome">
-
-<input id="tipo" placeholder="Tipo">
-
-<button onclick="cadastrar()">Cadastrar</button>
-
-</div>
-
-
-<div class="card">
-
-<h2>Animais</h2>
-
-<button onclick="carregar()">Carregar</button>
-
-<div id="lista" class="grid"></div>
-
-</div>
-
-</div>
-
-<script>
-
-
-const API="https://adaptable-rebirth-production.up.railway.app"
-
-
-async function cadastrar(){
-
-let nome=document.getElementById("nome").value
-
-let tipo=document.getElementById("tipo").value
-
-
-await fetch(API+"/animais",{
-
-method:"POST",
-
-headers:{
-"Content-Type":"application/json"
-},
-
-body:JSON.stringify({
-nome,
-tipo
-})
-
-})
-
-alert("Cadastrado!")
-
-carregar()
-
-}
-
-
-
-async function carregar(){
-
-let res=await fetch(API+"/animais")
-
-let dados=await res.json()
-
-let lista=document.getElementById("lista")
-
-lista.innerHTML=""
-
-
-dados.forEach(a=>{
-
-lista.innerHTML+=`
-
-<div class="animal">
-
-<h3>${a.nome}</h3>
-
-<p>${a.tipo}</p>
-
-</div>
-
-`
-
-})
-
-}
-
-
-</script>
-
-</body>
-</html>
+.anim

@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<meta charset="UTF-8">
+<title>Sistema Gado</title>
+</head>
+
+<body>
+
+<h1>Sistema de Gado 🐂</h1>
+
+<button onclick="carregar()">Carregar animais</button>
+
+<ul id="lista"></ul>
+
+<script>
+
+function carregar(){
+
+fetch("https://adaptable-rebirth-production.up.railway.app/")
+
+.then(res => res.text())
+
+.then(data => {
+
+document.getElementById("lista").innerHTML = data;
+
+});
+
+}
+
+</script>
+
+</body>
+
+</html>
